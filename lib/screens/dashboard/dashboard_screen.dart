@@ -3,9 +3,10 @@ import 'package:admin/screens/dashboard/components/my_fields.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
+import 'components/average_velocity.dart';
+import 'components/completed_sprint_table.dart';
 import 'components/header.dart';
 
-import 'components/recent_files.dart';
 import 'components/storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -25,12 +26,13 @@ class DashboardScreen extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      MyFiles(),
+                      ProductVersionCardGridView(),
                       SizedBox(height: defaultPadding),
-                      RecentFiles(),
+                      CompletedSprintTable(),
+                      SizedBox(height: defaultPadding),
                       if (Responsive.isMobile(context))
                         SizedBox(height: defaultPadding),
-                      if (Responsive.isMobile(context)) StarageDetails(),
+                      if (Responsive.isMobile(context)) AverageVelocity(),
                     ],
                   ),
                 ),
@@ -40,7 +42,7 @@ class DashboardScreen extends StatelessWidget {
                 if (!Responsive.isMobile(context))
                   Expanded(
                     flex: 2,
-                    child: StarageDetails(),
+                    child: AverageVelocity(),
                   ),
               ],
             )

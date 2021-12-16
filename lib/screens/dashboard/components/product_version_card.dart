@@ -1,16 +1,26 @@
-import 'package:admin/models/MyFiles.dart';
+import 'package:admin/models/product_version.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:admin/responsive.dart';
 
 import '../../../constants.dart';
 
-class FileInfoCard extends StatelessWidget {
-  const FileInfoCard({
+class VersionInfoCard extends StatelessWidget {
+  const VersionInfoCard({
     Key? key,
     required this.info,
   }) : super(key: key);
 
-  final CloudStorageInfo info;
+  final VersionInfo info;
+
+  Color releaseFontColour(String isReleased) {
+    if (isReleased == 'Released') {
+      return Colors.green;
+    } else if (isReleased == 'In Dev') {
+      return Colors.blueAccent;
+    } else {
+      return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,48 +39,60 @@ class FileInfoCard extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.all(defaultPadding * 0.75),
-                height: 40,
-                width: 40,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                   color: info.color!.withOpacity(0.1),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
-                child: SvgPicture.asset(
-                  info.svgSrc!,
-                  color: info.color,
+                child: Center(
+                  child: Text(
+                    info.initial!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orangeAccent,
+                    ),
+                  ),
                 ),
               ),
-              Icon(Icons.more_vert, color: Colors.white54)
+              //Icon(Icons.more_vert, color: Colors.white54)
             ],
           ),
-          Text(
-            info.title!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          Visibility(
+            visible: Responsive.isMobile(context) == false,
+            child: Text(
+              info.product!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          ProgressLine(
-            color: info.color,
-            percentage: info.percentage,
+          Visibility(
+            visible: Responsive.isMobile(context) == false,
+            child: ProgressLine(
+              color: info.color,
+              percentage: info.percentage,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "${info.numOfFiles} Files",
-                style: Theme.of(context)
-                    .textTheme
-                    .caption!
-                    .copyWith(color: Colors.white70),
-              ),
-              Text(
-                info.totalStorage!,
+                'V: ${info.version}',
                 style: Theme.of(context)
                     .textTheme
                     .caption!
                     .copyWith(color: Colors.white),
               ),
+              Visibility(
+                visible: Responsive.isMobile(context) == false,
+                child: Text(
+                  info.isReleased.toString(),
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(color: releaseFontColour(info.isReleased!)),
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

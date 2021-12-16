@@ -1,3 +1,4 @@
+import 'package:admin/models/completed_sprint.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -21,14 +22,15 @@ class StarageDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Storage Details",
+            "Average Veocity",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
           ),
           SizedBox(height: defaultPadding),
-          Chart(),
+          Text(getAverageVelocity().toString()),
+          //Chart(),
           StorageInfoCard(
             svgSrc: "assets/icons/Documents.svg",
             title: "Documents Files",

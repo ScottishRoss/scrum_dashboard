@@ -1,12 +1,11 @@
-import 'package:admin/models/RecentFile.dart';
+import 'package:admin/models/completed_sprint.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../constants.dart';
 
-class RecentFiles extends StatelessWidget {
-  const RecentFiles({
+class CompletedSprintTable extends StatelessWidget {
+  const CompletedSprintTable({
     Key? key,
   }) : super(key: key);
 
@@ -22,7 +21,7 @@ class RecentFiles extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Recent Files",
+            'Completed Sprints',
             style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(
@@ -32,18 +31,24 @@ class RecentFiles extends StatelessWidget {
               minWidth: 600,
               columns: [
                 DataColumn(
-                  label: Text("File Name"),
+                  label: Text('Sprint Number'),
                 ),
                 DataColumn(
-                  label: Text("Date"),
+                  label: Text('Completed Date'),
                 ),
                 DataColumn(
-                  label: Text("Size"),
+                  label: Text('Planned SPs'),
+                ),
+                DataColumn(
+                  label: Text('Completed SPs'),
+                ),
+                DataColumn(
+                  label: Text('Velocity'),
                 ),
               ],
               rows: List.generate(
-                demoRecentFiles.length,
-                (index) => recentFileDataRow(demoRecentFiles[index]),
+                testCompletedSprints.length,
+                (index) => completedSprintDataRow(testCompletedSprints[index]),
               ),
             ),
           ),
@@ -53,26 +58,23 @@ class RecentFiles extends StatelessWidget {
   }
 }
 
-DataRow recentFileDataRow(RecentFile fileInfo) {
+DataRow completedSprintDataRow(CompletedSprint completedSprint) {
   return DataRow(
     cells: [
       DataCell(
         Row(
           children: [
-            SvgPicture.asset(
-              fileInfo.icon!,
-              height: 30,
-              width: 30,
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.title!),
+              child: Text(completedSprint.sprintNumber.toString()),
             ),
           ],
         ),
       ),
-      DataCell(Text(fileInfo.date!)),
-      DataCell(Text(fileInfo.size!)),
+      DataCell(Text(completedSprint.completedDate.toString())),
+      DataCell(Text(completedSprint.plannedSP.toString())),
+      DataCell(Text(completedSprint.completedSP.toString())),
+      DataCell(Text(completedSprint.velocity.toString())),
     ],
   );
 }
